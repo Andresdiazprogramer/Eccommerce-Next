@@ -1,6 +1,8 @@
 
 // import { useRouter } from 'next/router'
+import { database } from 'config/firebase'
 import React from 'react'
+
 
 // export function getServerSaidProps(context){
 //     const {id} = context.params
@@ -15,7 +17,7 @@ import React from 'react'
 export async function getStaticPaths(context){
 
   console.log(context)
-    const productosRequest = await fetch("http://localhost:3000/api/productos")
+    const productosRequest = await fetch(database)
 
   const productos = await productosRequest.json()
 
