@@ -12,7 +12,9 @@ import React from 'react'
 //     }
 // }
 
-export async function getStaticPaths(){
+export async function getStaticPaths(context){
+
+  console.log(context)
     const productosRequest = await fetch("http://localhost:3000/api/productos")
 
   const productos = await productosRequest.json()
@@ -36,11 +38,11 @@ export async function getStaticProps({params}){
     }
 }
 
-export default function Producto({producto}) {
+export default function Producto(props) {
     // const router = useRouter()
     // const id = router.query.id
-
+  console.log(props)
   return (
-    <div className='font-bold'>{producto.id}</div>
+    <div className='font-bold'>{props.producto?.name}</div>
   )
 }
