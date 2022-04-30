@@ -3,6 +3,7 @@ import Product from "components/Product"
 import React from "react"
 import { database } from "config/firebase"
 import {collection,doc,getDocs,getDoc} from 'firebase/firestore'
+import Link from "next/link"
 
 // export async function getServerSaidProps() {
 //   const productosRequest = await fetch("http://localhost:3000/api/productos")
@@ -30,7 +31,8 @@ export async function getStaticProps() {
   return{
     props:{
       productos
-    }
+    },
+    revalidate:10
   }
 }
 
@@ -49,7 +51,9 @@ export default function Productos({productos}) {
       {productos.map((producto) => {
         return (
           <article key={producto.id}>
+            <Link href={"/productos"+producto.id}>
             <h2 className="font-bold">{producto.nombre}</h2>
+            </Link>
             <p className="font-semibold">{producto.precio}</p>
             <DarkMode></DarkMode>
             <Product></Product>
