@@ -1,6 +1,7 @@
 
 // import { useRouter } from 'next/router'
 import { database } from 'config/firebase'
+import {collection,doc,getDocs,getDoc} from 'firebase/firestore'
 import React from 'react'
 
 
@@ -14,30 +15,42 @@ import React from 'react'
 //     }
 // }
 
-export async function getStaticPaths(context){
+export async function getStaticPaths(){
+  const col = collection(database,"productos")
+  const docs = await getDocs(col)
 
-  console.log(context)
-    const productosRequest = await fetch(database)
+  const productos = []
 
-  const productos = await productosRequest.json()
+  docs.forEach(doc=>{
+      productos.push({...doc.data(),id:doc.id})
+  })
 
-  const paths = productos.map(producto =>({
-    params:{id:producto.id}
+  const paths = productos.map(producto=>({
+      params:{
+          id:producto.id
+      }
   }))
+
   console.log(paths)
 
-  return {paths,fallback:true}
+  return {
+      paths,
+      fallback:false // Si visitamos una ruta que no existe, devolvemos un 404
+  }
 }
 
+
 export async function getStaticProps({params}){
-    return{
-        props:{
-            producto:{
-                id:params.id,
-                name:'producto'
-            }
-        }
-    }
+  const document = doc(database,"productos",params.id)
+  const productDocument = await getDoc(document)
+
+  const producto = productDocument.data()
+
+  return {
+      props:{
+          producto
+      }
+  }
 }
 
 export default function Producto(props) {

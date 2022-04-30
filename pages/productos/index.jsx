@@ -2,6 +2,7 @@ import DarkMode from "components/DarkMode"
 import Product from "components/Product"
 import React from "react"
 import { database } from "config/firebase"
+import {collection,doc,getDocs,getDoc} from 'firebase/firestore'
 
 // export async function getServerSaidProps() {
 //   const productosRequest = await fetch("http://localhost:3000/api/productos")
@@ -17,13 +18,19 @@ import { database } from "config/firebase"
 
 export async function getStaticProps() {
   
-  const productosRequest = await fetch(database)
+  const col = collection(database,"productos")
+  const docs = await getDocs(col)
 
-  const productos = await productosRequest.json()
-  return {
-    props: {
-      productos,
-    },
+  const productos = []
+
+  docs.forEach(doc=>{
+      productos.push({...doc.data(),id:doc.id})
+  })
+
+  return{
+    props:{
+      productos
+    }
   }
 }
 
