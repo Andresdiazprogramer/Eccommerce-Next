@@ -2,6 +2,7 @@
 // import { useRouter } from 'next/router'
 import { database } from 'config/firebase'
 import {collection,doc,getDocs,getDoc} from 'firebase/firestore'
+import Link from 'next/link'
 import React from 'react'
 
 
@@ -56,8 +57,18 @@ export async function getStaticProps({params}){
 export default function Producto(props) {
     // const router = useRouter()
     // const id = router.query.id
-  console.log(props)
   return (
-    <div className='font-bold'>{props.producto?.name}</div>
+    <div>
+      <h1 className='font-bold'>
+        {props.producto?.nombre}
+      </h1>
+      <p>
+        {props.producto?.precio }
+      </p>
+      <p>
+      {props.producto?.descripcion }
+      </p>
+      <Link href='/productos'>Volver a Productos</Link>
+    </div>
   )
 }

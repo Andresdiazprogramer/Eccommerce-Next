@@ -2,7 +2,7 @@ import DarkMode from "components/DarkMode"
 import Product from "components/Product"
 import React from "react"
 import { database } from "config/firebase"
-import {collection,doc,getDocs,getDoc} from 'firebase/firestore'
+import {collection,getDocs} from 'firebase/firestore'
 import Link from "next/link"
 
 // export async function getServerSaidProps() {
@@ -51,10 +51,13 @@ export default function Productos({productos}) {
       {productos.map((producto) => {
         return (
           <article key={producto.id}>
-            <Link href={"/productos"+producto.id}>
+            <div className="cursor-pointer">
+            <Link href={"/productos/"+producto.id}>
             <h2 className="font-bold">{producto.nombre}</h2>
             </Link>
+            </div>
             <p className="font-semibold">{producto.precio}</p>
+            <p className="font-semibold">{producto.descripcion}</p>
             <DarkMode></DarkMode>
             <Product></Product>
           </article>
