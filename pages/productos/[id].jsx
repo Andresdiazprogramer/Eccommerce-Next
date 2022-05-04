@@ -32,8 +32,6 @@ export async function getStaticPaths(){
       }
   }))
 
-  console.log(paths)
-
   return {
       paths,
       fallback:false // Si visitamos una ruta que no existe, devolvemos un 404
